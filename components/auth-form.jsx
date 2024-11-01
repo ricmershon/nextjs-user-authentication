@@ -5,7 +5,8 @@ import Link from 'next/link';
 
 import { signup } from '@/lib/actions';
 
-export default function AuthForm() {
+export default function AuthForm({ mode }) {
+    console.log('^^^ MODE ^^^', mode);
     const [formState, formAction] = useFormState(signup, {});
 
     return (
@@ -32,11 +33,17 @@ export default function AuthForm() {
             )}
             <p>
                 <button type="submit">
-                    Create Account
+                    {mode === 'login' && 'Login'}
+                    {mode === 'signup' && 'Create Account'}
                 </button>
             </p>
             <p>
-                <Link href="/">Login with existing account.</Link>
+                {mode === 'login' && (
+                    <Link href="/?mode=signup">Create an account.</Link>
+                )}
+                {mode === 'signup' && (
+                    <Link href="/?mode=login">Login with existing account.</Link>
+                )}
             </p>
         </form>
     );
